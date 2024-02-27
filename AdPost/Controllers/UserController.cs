@@ -36,7 +36,7 @@ namespace AdPost.Web.Controllers
             };
             HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookies", "user", "role"))).Wait();
 
-            return Redirect("/home/home");
+            return Redirect("/home/newad");
         }
         public IActionResult Logout()
         {
