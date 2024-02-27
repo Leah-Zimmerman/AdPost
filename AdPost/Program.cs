@@ -2,9 +2,18 @@ namespace AdPost
 {
     public class Program
     {
+        private static string CookieScheme = "AdPost";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddAuthentication(CookieScheme)
+                .AddCookie(CookieScheme, options =>
+                {
+                    options.LoginPath = "/user/login";
+                });
+
+            builder.Services.AddSession();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -23,12 +32,14 @@ namespace AdPost
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Home}/{id?}");
 
             app.Run();
         }
